@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<script src="./public/js/ejs.js"></script>
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src= "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito">
+<link rel="stylesheet" href="./public/css/style.css">
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+
+<script>
+	
+		// Setting the logo and tag for the website
+		function onloading(){
+			document.getElementById('tagOne').innerHTML = '&lt;';
+			document.getElementById('tagTwo').innerHTML = 'Code';
+			document.getElementById('tagThree').innerHTML = ':';
+			document.getElementById('tagFour').innerHTML = '<i class="fa fa-code-fork"></i> PlaY';
+			document.getElementById('tagFive').innerHTML = '/&gt;';
+		}	
+
+		let statlist = new Set();
+		// condition to show modal or not
+		$(document).ready(function(){
+		var userData =<%-JSON.stringify(userdetail)%>
+
+	 	console.log(userData.ContributeIn);
+		if( (userData.profileImage)!='./public/img/user_logo.png' 
+			&& (userData.ContributeIn!=null || userData.LearnIn!=null) )	
+			{
+				console.log('first if');
+				$("#id01").hide();
+			}
+
+		else if( (userData.profileImage)=='./public/img/user_logo.png' 
+			&& (userData.ContributeIn=='' || userData.LearnIn=='') )
+			{
+				console.log('second if');
+				$("#getPicture").show();
+				$("#getStat").hide();
+			}
+
+		else if((userData.ContributeIn==null || userData.LearnIn==null))
+		{
+			if((userData.profileImage)!='./public/img/user_logo.png'){
+				$("#getPicture").hide();
+				$("#getStat").show();
+				console.log('third if');
+			}
+		}
+		
+
+		// MOdal button click to get Stats
+		$("#ContinueToStepFinal").click(function(){
+				console.log('submit step');
+				
+				var list = Array.from(statlist);
+				console.log(list);
+				 $.post("http://localhost:3000/dashboard", { ContributeIn: list }, (data, status) => {
+				 	console.log(statlist);
+				 	console.log('***************'+status);
+	                if(status === 'success' )
+	                  {  
+	                  
+	                  }
+	                else{
+	              	console.log('inside else');
+	                }
+	                });
+					
+					$("#id01").hide();
+					console.log('on main page');
+		});
+		
+		
+		// Button click on modal for step two
+		$("#ContinueToStepTwo").click(function(){
+					$("#getPicture").hide();
+					$("#getStat").show();	
+					console.log('inside step one');
+		});
+
+		// Button click on modal for step one 
+		$("#ContinueToStepOne").click(function(){
+					$("#getPicture").show();
+					$("#getStat").hide();	
+					console.log('inside step two');
+		});
+
+		// Signout request
+		$("#signoutrequest").click(function(){
+     
+	          $.post("http://localhost:3000/logout",  (data, status) => {
+	                if(status === 'success' )
+	                  {  
+	                    window.location.href = '/';
+	                  }
+	                });
+	      });
+
+
+		// Profile pic upload
+		$('#uploadForm').submit(function() {
+		$("#status").empty().text("File is uploading...");
+		$(this).ajaxSubmit({
+		            error: function(xhr) {
+		        		console.log('Error: ' + xhr.status);
+		            },
+		            success: function(response) {
+				        $("#status").empty().text(response);
+				                //console.log(response);
+				                $("#profilepic").attr("src",'<%= userdetail.profileImage %>');
+				                $("#homepic").attr("src",'<%= userdetail.profileImage %>');
+				             }
+				    });
+		        	//Very important line, it disable the page refresh.
+		   		 return false;
+		    }); 
+			
+			// Getting the blog data 
+			$('#blogsetup').click(function(){
+			console.log('inside blog');
+	          $.post("http://localhost:3000/blog",  (data, status) => {
+	                if(status === 'success' )
+	                  {  
+	                    window.location.href = '/blog';
+	                  }
+	                });
+	      });
+
+			// Clicking on blog request and route
+			$(".blogs").bind('click', $.proxy(function(event) {
+				console.log($(event.target));
+    		var blogID = $(event.target).attr('id');
+    		console.log(blogID);
+    		$.post("http://localhost:3000/blogdetail/"+blogID, { blogID: blogID}, (data, status) => {
+	          		console.log('status >>>>>>>>>>>>>>'+status);
+	                if(status === 'success' )
+	                  {  
+	                    window.location.href = '/blogdetail/'+blogID;
+	                  }
+	                });
+    		}));
+
+    		// Clicking on like request and route
+			$(".like").bind('click', $.proxy(function(event) {
+				console.log($(event.target));
+    		var blogID = $(event.target).attr('id');
+    		console.log(blogID);
+    		$.post("http://localhost:3000/blogdetail/"+blogID, { blogID: blogID}, (data, status) => {
+	          		console.log('status >>>>>>>>>>>>>>'+status);
+	                if(status === 'success' )
+	                  {  
+	                  //  window.location.href = '/blogdetail/'+blogID;
+	                  }
+	                });
+    		}));
+
+
+    		// Clicking on blog request and route
+			
+			$("#Salesforce").click(function(){
+					if(!statlist.has('Salesforce'))
+					{	statlist.add('Salesforce');
+						$("#Salesforce").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('Salesforce');
+						$("#Salesforce").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#Java").click(function(){
+					if(!statlist.has('Java'))
+					{	statlist.add('Java');
+						$("#Java").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('Java');
+						$("#Java").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#C").click(function(){
+					if(!statlist.has('C'))
+					{	statlist.add('C');
+						$("#C").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('C');
+						$("#C").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#MYSQL").click(function(){
+					if(!statlist.has('MYSQL'))
+					{	statlist.add('MYSQL');
+						$("#MYSQL").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('MYSQL');
+						$("#MYSQL").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#Express").click(function(){
+				if(!statlist.has('Express'))
+					{	statlist.add('Express');
+						$("#Express").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('Express');
+						$("#Express").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#Android").click(function(){
+				if(!statlist.has('Android'))
+					{	statlist.add('Android');
+						$("#Android").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('Android');
+						$("#Android").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#Cplusplus").click(function(){
+				if(!statlist.has('C++'))
+					{	statlist.add('C++');
+						$("#Cplusplus").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('C++');
+						$("#Cplusplus").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					} });
+			$("#Nodejs").click(function(){
+				if(!statlist.has('Nodejs'))
+					{	statlist.add('Nodejs');
+						$("#Nodejs").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('Nodejs');
+						$("#Nodejs").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+			$("#Mongodb").click(function(){
+				if(!statlist.has('Mongodb'))
+					{	statlist.add('Mongodb');
+						$("#Mongodb").css({"color": "white","background-color": "#ff6347","border": "1px solid #ff6347"});
+					}
+					else{
+						statlist.delete('Mongodb');
+						$("#Mongodb").css({"color": "black","background-color": "white","border": "1px solid lightgray"});
+					}});
+
+    });	
+</script>
+<style>
+		ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+
+		}
+
+		li {
+			float: left;
+		}
+
+		li a {
+			display: block;
+			color: #c9c9c9;
+			text-align: center;
+			padding: 10px 15px;
+			text-decoration: none;
+			border-radius: 2px;
+			
+		}
+
+		li a:hover {
+			background-color:  #ff6347	;
+			color:white;
+		}
+		
+		/*box outline*/
+		#blogsetup:hover {
+			outline : 1px solid 	#99ccff;
+		}
+		#modulesetup:hover {
+			outline : 1px solid 	#99ccff;
+		}
+		
+		.statCard{
+			color: black;
+			background-color: white;
+			border: 1px solid lightgray;
+		}
+
+		.statCard:hover{
+			color: white;
+			background-color: #ff6347;
+			border: 1px solid #ff6347;
+		}
+</style>
+</head>
+
+<body class="w3-Nunito w3-small" onload="onloading()">
+
+<!-- hover Modal -->
+
+<div id="id01" class="w3-modal" style="display:block;">
+<div class="w3-modal-content w3-round" style="background-color: white;">
+  <div class="w3-center">
+	 <div class="w3-round" id="getPicture">
+			<div class="" style="padding:0px; margin:0px;">
+
+			<!-- skip button page 1 -->
+        	<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+			<div class="w3-cell w3-display-container">
+				<!-- Image Page 1 -->
+				<img src="./public/img/Picture1.png" height="40%" class="w3-round"/>
+				 <div class="w3-display-left w3-xlarge w3-margin-left">
+						<p class="w3-large"  style="font-size: 24px;padding-left:10px;">
+						<h2 class="w3-xxlarge" style="color:lightgray">GET READY TO </h2> 
+						<h2 class="w3-xxlarge" style="color:#1e90ff">Code.</h2> 
+						<h2 class="w3-xxlarge" style="color:#3cb371">Blog.</h2> 
+						<h2 class="w3-xxlarge" style="color:#ff6347">Play.</h2> 
+						</p>
+				</div>
+				</div>
+
+				<!-- Page 1 -->
+				<div class="w3-cell w3-margin w3-padding w3-cell-top" style="width:100%;">
+					<div class="w3-round" id="getPicture">
+						<div class="w3-container w3-center">
+							<p class="w3-xlarge" style="color:#20bf6b;font-weight:100;">STEP 1 : Update Profile Image</p>
+						</div>
+						<hr/>
+						<div class="w3-container w3-center">
+							<img class="w3-circle"	src="<%= userdetail.profileImage %>" style=" box-shadow: 1px 1px 1px 1px lightgray;" id="profilepic" width="20%"/>
+						</div>
+						<div class="fileUpload btn btn-primary w3-container w3-center">
+						  <p>
+								 <form id="uploadForm" enctype="multipart/form-data" action="/photo" method="post">
+								  <input type="file" name="userPhoto" />
+								  <input type="submit" value="Upload" id="uploadBtn" name="submit" style="">
+								  <span id = "status"></span>
+								</form>
+						  </p>
+						</div>
+						<hr/>
+						<div class="w3-container">
+						<div>
+							<!-- CONTINUE BUTTON -->
+							<div class="w3-right-align w3-padding">
+								<button class="button button_active" id="ContinueToStepTwo">Continue &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button> 
+							</div>
+						</div>			
+					</div>
+					</div> 
+				</div>
+      		</div>
+		</div> 
+
+		<!--  GET STAT PAGE -->
+		<div class=" w3-round" id="getStat" style="display:none;background-color:white;">
+			<div class="" style="padding:0px; margin:0px;">
+			<!--  get STAT PAGE SKIP BUTTON -->
+        	<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+			<!-- GET STAT PAGE IMAGE -->
+			<div class="w3-cell w3-display-container">
+				<img src="./public/img/Picture1.png" height="40%" class="w3-round"/>
+				 <div class="w3-display-left w3-xlarge w3-margin-left">
+						<p class="w3-large"  style="font-size: 24px;padding-left:10px;">
+						<h2 class="w3-xxlarge" style="color:lightgray">GET READY TO</h2> 
+						<h2 class="w3-xxlarge" style="color:#1e90ff">Code.</h2> 
+						<h2 class="w3-xxlarge" style="color:#3cb371">Blog.</h2> 
+						<h2 class="w3-xxlarge" style="color:#ff6347">Play.</h2> 
+						</p>
+				 </div>
+			</div>
+
+			<!-- GET STAT PAGE -->
+			<div class="w3-cell w3-margin w3-padding w3-cell-top" style="width:100%;">
+					<div class="w3-round" id="getPicture">
+						<div class="w3-container w3-center">
+							<p class="w3-xlarge" style="color:#20bf6b;font-weight:100;">STEP 2 : Customize your feed for ?</p>
+						</div>
+						<hr/>
+						<div class="w3-container w3-center" style="height:200px;overflow : auto;">
+							<div class="w3-row w3-margin-top w3-margin-bottom">
+							  <div class="w3-third w3-container">
+								<div id="Salesforce" class="statCard statCardjs w3-round w3-padding w3-center">
+									<p >SALESFORCE</p>
+								  </div>
+							  </div>
+							  <div class="w3-third w3-container">
+								<div id="Java" class="statCard statCardjs w3-round  w3-padding  w3-center">
+									<p>JAVA</p>
+								  </div>
+							  </div>
+							  <div class="w3-third w3-container">
+								<div id="C" class="statCard statCardjs w3-round w3-padding  w3-center">
+									<p>C</p>
+								  </div>
+							  </div>
+							</div>
+							<div class="w3-row w3-margin-top w3-margin-bottom">
+							  <div class="w3-third w3-container">
+								<div id="MYSQL" class="statCard statCardjs w3-round w3-padding w3-center">
+									<p>MYSQL</p>
+								  </div>
+							  </div>
+							  <div class="w3-third w3-container">
+								<div id="Android" class="statCard statCardjs w3-round  w3-padding  w3-center">
+									<p>ANDROID</p>
+								  </div>
+							  </div>
+							  <div class="w3-third w3-container">
+								<div id="Express" class="statCard statCardjs w3-round w3-padding  w3-center">
+									<p>EXPRESS</p>
+								  </div>
+							  </div>
+							</div>
+							<div class="w3-row w3-margin-top w3-margin-bottom">
+							  <div class="w3-third w3-container">
+								<div id="Cplusplus" class="statCard statCardjs w3-round w3-padding w3-center">
+									<p>C++</p>
+								  </div>
+							  </div>
+							  <div class="w3-third w3-container">
+								<div id="Nodejs" class="statCard statCardjs w3-round w3-padding w3-center" >
+									<p>NODE JS</p>
+								  </div>
+							  </div>
+							  <div class="w3-third w3-container">
+								<div id="Mongodb" class="statCard statCardjs w3-round w3-padding w3-center">
+									<p>MONGO DB</p>
+								  </div>
+							  </div>
+							</div>
+
+						</div>
+						<hr/>
+						<div class="w3-container">
+						<div>
+							<div class="w3-right-align w3-padding">
+								<button class="button button_active" id="ContinueToStepFinal">Submit &nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button> 
+							</div>
+						</div>			
+					</div>
+					</div> 
+			</div>
+      	</div>
+		</div> 
+		</div>
+	</div>	  
+	</div>
+  </div>
+
+
+<!-- Main Page -->
+
+<div class="w3-container w3-top " style="background-color:#24292e;">		
+	<div class="w3-row ">
+		
+	      <div class="w3-col" style="width:300px;">
+	        <p class="w3-large"  style="font-size: 20px;">
+	        <spam style="color: #C9C9C9; font-size: 24px;margin:0px;padding:0px;" id="tagOne"></spam>
+	        <spam style="color: #4a90e2; font-size: 24px;margin:0px;padding:0px;" id="tagTwo"></spam>
+	        <spam style="color: #C9C9C9; font-size: 24px;margin:0px;padding:0px;" id="tagThree"></spam>
+	        <spam style="color: #0bff01; font-size: 24px;margin:0px;padding:0px;" id="tagFour"></spam>
+	        <spam style="color: #C9C9C9; font-size: 24px;margin:0px;padding:0px;" id="tagFive"></spam>
+	        </p>
+	      </div>
+	     
+	      <div class="w3-rest">
+	      	 <div class="w3-container w3-center w3-margin-top" style="margin-left: 8%;">
+	      	<div class="w3-text-black " style="background-color: #24292e;">
+				<div style="font-size: 16px; ">
+					<ul>
+					  <li><b><a class="active" href="#home"><i class="fa fa-code"></i> &nbsp;Blog</a></b></li>
+					  <li><b><a href="#news"><i class="fa fa-check"></i> &nbsp;Practise</a></b></li>
+					  <li><b><a href="#contact"><i class="fa fa-code-fork"></i> &nbsp;Implement</a></b></li>
+					  <li><b><a href="#about"><i class="fa fa-life-bouy"></i> &nbsp;Contribute</a></b></li>
+					  <li><b><a href="#about"><i class="fa fa-magic"></i> &nbsp;Fun</a></b></li>
+					</ul>
+				</div>
+			
+
+	   
+			</div>
+
+	      </div>
+	        
+	      </div>
+
+	</div>
+</div>
+
+<div class="w3-container" style="background-color:#f9f9f9;margin-top: 75px;">
+	<div class="w3-row" >
+		<div class="w3-col w3-round w3-cell w3-container w3-margin" style="width:18%;background-color:white;position:fixed;top:80px;left:20px;">
+			<div class="w3-col">
+			<div class="w3-container w3-center ">
+				<img class="w3-circle w3-margin-top"	src='<%= userdetail.profileImage %>' id="homepic" width="80%" style="border:1px solid #f1f1f1;"/></div>
+			 <div class="w3-container w3-center"> 
+		          <p class="w3-xlarge"  style="padding-bottom:0px;margin-bottom:0px; color:#ff6347">
+		                <%= userdetail.FirstName %> <%= userdetail.LastName%> 
+		          </p>
+		          Code enthusiast
+		          <hr/>
+		           24 contributions
+		           <br/> 2 blogs
+		      </div>
+			 
+			</div>
+			<div class="w3-col w3-container w3-margin-top w3-center-align w3-padding" id="blogsetup" style="background-color:white;">
+				<div class="w3-quarter w3-border-right w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img src="./public/img/pencil.png" width="100%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="color:#2c52ab;"><b> Blog Setup</b> </div>
+					<div>Maintain blogs</div>
+				</div>
+			</div>
+			
+			<div class="w3-col w3-container w3-margin-top w3-center-align  w3-margin-bottom w3-padding" id="modulesetup" style="background-color:white;">
+				<div class="w3-quarter w3-border-right w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img src="./public/img/stack.png" width="100%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="color:#2c52ab;"><b> Module Setup</b> </div>
+					<div>Maintain modules</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="w3-col w3-round w3-cell w3-container w3-margin" style="width:50%;position:relative;left:20%;">
+			<div class="w3-row w3-margin-top w3-margin-bottom">
+			  <div class="w3-third w3-container">
+				<div class="w3-white w3-round  w3-padding w3-center" >
+					<p>Hover over me to display me as a card!</p>
+				  </div>
+			  </div>
+			  <div class="w3-third w3-container">
+				<div class="w3-white w3-round  w3-padding  w3-center" >
+					<p>Hover over me to display me as a card!</p>
+				  </div>
+			  </div>
+			  <div class="w3-third w3-container">
+				<div class="w3-white w3-round w3-padding  w3-center" >
+					<p>Hover over me to display me as a card!</p>
+				  </div>
+			  </div>
+			</div>
+			<hr/>
+			<div class="">
+					<div class="">
+					<% for (var key in blogdetail) { %>
+						
+						<div class=" w3-normal w3-round w3-margin-top blogs"  id="<%= blogdetail[key].id %>">
+
+							<div class="w3-white w3-round-large w3-padding w3-text-blue w3-large blogs" style="overflow: hidden;"  id="<%= blogdetail[key].id %>">
+					    	<b><%= blogdetail[key].Heading %></b>
+							</div>
+							
+							<div class="w3-white w3-padding w3-large blogs"  id="<%= blogdetail[key].id %>" style="margin-bottom: 0px;">
+							<%= blogdetail[key].Intro %>
+							<hr style="margin-top: 2px;margin-bottom: 2px;" />
+							</div>
+						
+							<!--<div class="w3-white w3-padding blogs"  id="<%= blogdetail[key].id %>">
+							<%= blogdetail[key].CreatedBy %> <%= blogdetail[key].CreatedDate %> 
+							</div> -->
+							<div class="w3-white w3-small w3-padding blogs"  id="<%= blogdetail[key].id %>" style="padding-top:0px; margin-top: 0px;">
+								<div class="w3-row">
+									<div class="w3-col w3-left" style="width:60%;">
+							 			<img class="w3-circle" src="./public/Images/skms@gmail.com.jpg" width="10%" /> &nbsp;
+							 		 	<span style="font-size: 13px;">Suraj Thakur</span>
+							 		</div>
+							 		<div class="w3-rest w3-right">
+							 			<div class="w3-right-align" style="color: #747474"> 10 min ago</div> 
+							 		</div>
+							 	</div>
+							</div>
+
+							<div class="w3-white w3-padding w3-large blogs" style="margin-bottom: 0px;">
+							
+								
+								<div class="w3-row w3-center" style="margin-left: 20px;margin-right: 20px;color:#747474">
+									  <div id="<%= blogdetail[key].id %>" class="w3-quarter w3-container like" style="font-size: 13px;">
+									    <p id="<%= blogdetail[key].id %>" class="like">
+									    	<b  id="<%= blogdetail[key].id %>" class="like">
+									    		<i  id="<%= blogdetail[key].id %>" class="fa fa-thumbs-o-up like"></i> 
+									    		&nbsp; Like
+									    	</b>
+									    </p> 
+									  </div>
+									    <div id="<%= blogdetail[key].id %>" class="w3-quarter w3-container blogs" style="font-size: 13px;">
+									    <p id="<%= blogdetail[key].id %>" class="blogs">
+									    	<b  id="<%= blogdetail[key].id %>" class="blogs">
+									    		<i  id="<%= blogdetail[key].id %>" class="fa fa-code-fork blogs"></i> 
+									    		&nbsp; Blog It
+									    	</b>
+									    </p> 
+									  </div>
+									   <div id="<%= blogdetail[key].id %>" class="w3-quarter w3-container blogs" style="font-size: 13px;">
+									    <p id="<%= blogdetail[key].id %>" class="blogs">
+									    	<b  id="<%= blogdetail[key].id %>" class="blogs">
+									    		<i  id="<%= blogdetail[key].id %>" class="fa fa-comment-o blogs"></i> 
+									    		&nbsp; Comment
+									    	</b>
+									    </p> 
+									  </div>
+									   <div id="<%= blogdetail[key].id %>" class="w3-quarter w3-container blogs" style="font-size: 13px;">
+									    <p id="<%= blogdetail[key].id %>" class="blogs">
+									    	<b  id="<%= blogdetail[key].id %>" class="blogs">
+									    		<i  id="<%= blogdetail[key].id %>" class="fa fa-send-o blogs"></i> 
+									    		&nbsp; Share
+									    	</b>
+									    </p> 
+									  </div>
+									</div>
+							</div>
+						
+						
+						</div>
+						
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<div class="w3-col w3-cell w3-container w3-margin w3-padding" style="width:24%; background-color: white;position: fixed;top :80px;right:20px; " >
+			<div class="w3-margin w3-center">
+				<p style="font-size:17px;color:#3cb371"><b>Top 5 Contributors</b></p>
+			</div>
+			<div class="w3-col w3-center-align w3-padding" id="blogsetup" style="background-color:white;">
+				<div class="w3-quarter w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img class="w3-circle" src="./public/Images/garcia5.jpg" width="70%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="font-size: 16px;"><b>Terry Nelson</b> </div>
+					<div> 234 Blogs</div>
+				</div>
+			</div>
+			<div class="w3-col w3-center-align w3-padding" id="blogsetup" style="background-color:white;">
+				<div class="w3-quarter w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img class="w3-circle" src="./public/Images/garcia4.jpg" width="70%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="font-size: 16px;"><b> Alekh Sharma</b> </div>
+					<div> 211 Blogs</div>
+				</div>
+			</div>
+
+			<div class="w3-col w3-center-align w3-padding" id="blogsetup" style="background-color:white;">
+				<div class="w3-quarter w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img class="w3-circle" src="./public/Images/garcia3.jpg" width="70%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="font-size: 16px;"><b> Saurabh Tripathi</b> </div>
+					<div> 197 Blogs</div>
+				</div>
+			</div>
+
+			<div class="w3-col w3-center-align w3-padding" id="blogsetup" style="background-color:white;">
+				<div class="w3-quarter w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img class="w3-circle" src="./public/Images/garcia4.jpg" width="70%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="font-size: 16px;"><b> Sagar Jain</b> </div>
+					<div> 165 Blogs</div>
+				</div>
+			</div>
+
+			<div class="w3-col w3-center-align w3-padding" id="blogsetup" style="background-color:white;">
+				<div class="w3-quarter w3-center" style="margin-left:auto; margin-right:auto;color:blue; padding-right:5px;">
+					<img class="w3-circle" src="./public/Images/garcia5.jpg" width="70%">
+				</div>
+				<div class="w3-threequarter" style="padding-left:10px;">
+				<div style="font-size: 16px;"><b> Paulette Hunt </b> </div>
+					<div> 155 Blogs</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+      
+</body>
