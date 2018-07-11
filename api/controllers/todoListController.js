@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
   	blog			= mongoose.model('blog'),
   	express 		= require('express'),
   	app 			= express(),
-	BlogDB=mongoose.model('myBlogDatabase'),
+	//BlogDB=mongoose.model('myBlogDatabase'), //skms
+	
   	cookieParser	= require('cookie-parser'),
   	session 		= require('express-session'),
   	bodyParser 		= require('body-parser'),
@@ -169,14 +170,24 @@ exports.sendLoginCredents = function(req, res)
 	});
 };
 
-//save blog content editable
+//save blog content editable author saurabh
   exports.saveblog=function(req,res) {
   const headData = req.body.headData;
   const bodyData = req.body.bodyData;
-  var myData = new BlogDB({BlogHead:headData,BlogBody:bodyData});
+  //var myData = new BlogDB({BlogHead:headData,BlogBody:bodyData});
+ 
+   userDB.findOne({FirstName:"skms"}).then(function(record){
+	   
+	   record.blogs.push({BlogHead:headData,BlogBody:bodyData});
+	   record.save().then(function(){
+		   console.log('saved successfully');
+		   
+	   });
+   });
+   
   if(req.session.username)
   {
-  myData.save(function(err, task) {
+ myData.save(function(err, task) {
     if (err || task.length === 0)
 	{
       res.send(err);

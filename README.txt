@@ -14,3 +14,8 @@ session is stored using mongo store, and encrypted before saving as cookie , usi
 
 Additional sesson obje (Say username) is added to session , to check whether the db has that object existing for the 
 requested session.
+
+///comment saurabh below 12/july
+Don't register the schema that is to be embedded(Child schema).
+Modify the record fetched(push) and then save to parent schema...to test create a user with first name "skms" and then goto blogcreation page to create 
+multiple blogs for the user "skms".

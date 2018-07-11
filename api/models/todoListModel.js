@@ -2,6 +2,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
+//blog author saurabh
+var BlogFlowSchema = new Schema({
+	
+	BlogHead:{type: String, trim: true,sparse: true, required: false},
+	BlogImageUrl:{type: String, trim: true,sparse: true, required: false},
+	BlogBody:{type: String, trim: true,sparse: true, required: false},
+	Topic : {type: String},
+  ///userid : [{ type: Schema.Types.ObjectId, ref: 'creator' }]
+});
+
 var userDBSchema = new Schema({
   FirstName: {type: String, trim: true,sparse: true, required: true},
   LastName: {type: String, trim: true,sparse: true, required: true},
@@ -14,17 +25,10 @@ var userDBSchema = new Schema({
   LearnIn : {type: Array, trim: true, },
   Coins : {type: Number},
   profileImage : {type: String, default: './public/img/user_logo.png' },
-  DOB : {type:Date}         
+  DOB : {type:Date},
+  blogs : [BlogFlowSchema]
 });
 
-var BlogFlowSchema = new Schema({
-	
-	BlogHead:{type: String, trim: true,sparse: true, required: false},
-	BlogImageUrl:{type: String, trim: true,sparse: true, required: false},
-	BlogBody:{type: String, trim: true,sparse: true, required: false},
-	Topic : {type: String},
-  userid : [{ type: Schema.Types.ObjectId, ref: 'creator' }]
-});
 
 var BlogSchema = new Schema({
   Heading: {type: String, trim: true, required: true},
@@ -40,4 +44,4 @@ module.exports = mongoose.model('myUserDatabase', userDBSchema);
 
 module.exports = mongoose.model('blog', BlogSchema);
 
-module.exports = mongoose.model('myBlogDatabase', BlogFlowSchema);
+ // donot register the schema that is to be embedded module.exports = mongoose.model('myBlogDatabase', BlogFlowSchema);
