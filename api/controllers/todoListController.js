@@ -6,8 +6,7 @@ var mongoose = require('mongoose'),
   	blog			= mongoose.model('blog'),
   	express 		= require('express'),
   	app 			= express(),
-	//BlogDB=mongoose.model('myBlogDatabase'), //skms
-	
+	BlogDB=mongoose.model('myBlogDatabase'),
   	cookieParser	= require('cookie-parser'),
   	session 		= require('express-session'),
   	bodyParser 		= require('body-parser'),
@@ -170,13 +169,15 @@ exports.sendLoginCredents = function(req, res)
 	});
 };
 
-//save blog content editable author saurabh
+//save blog content editable
   exports.saveblog=function(req,res) {
   const headData = req.body.headData;
   const bodyData = req.body.bodyData;
-  //var myData = new BlogDB({BlogHead:headData,BlogBody:bodyData});
- 
-   userDB.findOne({FirstName:"skms"}).then(function(record){
+  var myData = new BlogDB({BlogHead:headData,BlogBody:bodyData});
+  
+  /* embedded relation without reference (do not delete)
+  
+  userDB.find({FirstName:"skms"}).then(function(record){
 	   
 	   record.blogs.push({BlogHead:headData,BlogBody:bodyData});
 	   record.save().then(function(){
@@ -184,24 +185,36 @@ exports.sendLoginCredents = function(req, res)
 		   
 	   });
    });
-   
-  if(req.session.username)
-  {
- myData.save(function(err, task) {
+  */
+  
+  
+   myData.save(function(err, task) {
     if (err || task.length === 0)
 	{
       res.send(err);
 	  }
 	  else
 	  {
-    res.json(task);
+		  var result ={ FirstName: 'skms'};
+		  console.log('got:-  '+task.id);
+		  var blogID = { blogIDs :task.id }
+	userDB.updateOne(result,{$push : blogID},function(err, result) {
+		if (err) {console.log('Error saving Id');throw err;}	
+		res.send('Updated the information')
+	});
+	//userDB.update({FirstName:"skms"},{blogIDs:task.id});
+    //res.json(task);
+	
 	//console.log(`skms added:-  POST request: username is ${username} and password is ${password}`);
-  res.end(`Inserted blog`);
+ // res.end(`Inserted blog`);
   }
   
  
   
   });
+  if(req.session.username)
+  {
+ //handle session and then 
   }
   else
   {

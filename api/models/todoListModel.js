@@ -26,7 +26,7 @@ var userDBSchema = new Schema({
   Coins : {type: Number},
   profileImage : {type: String, default: './public/img/user_logo.png' },
   DOB : {type:Date},
-  blogs : [BlogFlowSchema]
+  blogIDs : []
 });
 
 
@@ -44,4 +44,4 @@ module.exports = mongoose.model('myUserDatabase', userDBSchema);
 
 module.exports = mongoose.model('blog', BlogSchema);
 
- // donot register the schema that is to be embedded module.exports = mongoose.model('myBlogDatabase', BlogFlowSchema);
+ module.exports = mongoose.model('myBlogDatabase', BlogFlowSchema);
