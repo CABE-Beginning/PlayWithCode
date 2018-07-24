@@ -173,6 +173,8 @@ exports.sendLoginCredents = function(req, res)
   exports.saveblog=function(req,res) {
   const headData = req.body.headData;
   const bodyData = req.body.bodyData;
+  var usID=userDB.find({FirstName: 'skms'});
+  console.log('got user id:-  '+usID["LastName"]);
   var myData = new BlogDB({BlogHead:headData,BlogBody:bodyData});
   
   /* embedded relation without reference (do not delete)

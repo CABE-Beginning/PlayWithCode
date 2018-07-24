@@ -10,7 +10,7 @@ var BlogFlowSchema = new Schema({
 	BlogImageUrl:{type: String, trim: true,sparse: true, required: false},
 	BlogBody:{type: String, trim: true,sparse: true, required: false},
 	Topic : {type: String},
-  ///userid : [{ type: Schema.Types.ObjectId, ref: 'creator' }]
+  userid : {type: String}
 });
 
 var userDBSchema = new Schema({

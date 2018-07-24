@@ -3,10 +3,61 @@
 <head>
 <!-- content editable script begins here   -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+//script to control highlighter
+
+    $(document).ready(function () {
+        $('button').click(function () {
+            //$(this).toggleClass('iconBTNBorder').siblings().removeClass('iconBTNBorder');
+			var boldBTN=0, italicBTN=0, underlineBTN=0 , ordrList=0, unordrList=0, quoteBTN=0, linkBTN=0, codeBTN=0, imgBTN=0;
+			//alert($(this).attr('id'));
+			var clicked=$(this).attr('id');
+			switch(clicked)
+			{
+			case "boldBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "italicBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "underlineBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "ordrList" :
+			$(this).toggleClass('iconBTNBorder');
+			$('#unordrList').removeClass('iconBTNBorder');
+			break;
+			case "unordrList" :
+			$(this).toggleClass('iconBTNBorder');
+			$('#ordrList').removeClass('iconBTNBorder');
+			break;
+			case "quoteBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "linkBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			case "codeBTN" :
+			$(this).toggleClass('iconBTNBorder');
+			break;
+			default:
+			console.log('no concerns');
+			
+			}
+			
+			
+        });
+    });
+	
+	
+	
+</script>
 <script type="text/javascript">
  function addImage(){
 var imgPath = document.getElementById("myFile");
@@ -60,15 +111,17 @@ window.name = $('#textBox').html();
     oPre.contentEditable = true;
     oPre.appendChild(oContent);
     oDoc.appendChild(oPre);
-    document.execCommand("defaultParagraphSeparator", false, "div"); oDoc.focus(); }
+    document.execCommand("defaultParagraphSeparator", false, "div");  }
 }
 function showSaved()
 {
 alert(window.name);
 }
 function formatDoc(sCmd, sValue) {
+
 $('#textBox').focus();
-  document.execCommand(sCmd, false, sValue);  
+  document.execCommand(sCmd, false, sValue);
+  
 }
 
 function codeIt()
@@ -76,8 +129,8 @@ function codeIt()
 oDoc.focus();
 if(chk==0)
 {
-document.execCommand('insertHTML', true, '<div id="codeBlock"></div>');
-codeBlock.document.execCommand('backcolor',false,'#C7FAC7')
+document.execCommand('insertHTML', true, '<div id="codeBlock" style="font:italic;"></div>');
+codeBlock.document.execCommand('backcolor',true,'#C7FAC7')
 chk=1;
 }
 else{
@@ -197,6 +250,8 @@ const headData = $("#blogHead").val();
 	</script>
 	
 	<style type="text/css" name="content ediatble style...most welcome to change">
+	
+	
 	userImage
 {
 height:100px;
@@ -247,10 +302,29 @@ margin-left:5%;
 background-color:#EAEAEA;
 height:20px;
  word-break: break-all;
-
+font:italic;
+}
+.iconBTN
+{
+background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;0
+height:10px;
+margin-top:2px;	
+}
+.iconBTN:hover
+{
+background-color: grey;
+}
+.iconBTNBorder
+{
+border: 1px solid;
 }
 
-.button {
+.submitBTN {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -263,14 +337,14 @@ height:20px;
     cursor: pointer;
 	border-radius: 4px;
 }
-img{
-cursor:grab;
-}
+.button:hover {background-color: #3e8e41}
+
 button {border-radius: 4px;}
 .toolBar2
 {
  border-radius: 4px;
- height:30px;
+ height:35px;
+ 
 }
 
 #container {
@@ -298,130 +372,11 @@ height:26px;
 	z-index: -1;
 }
 	</style>
-	<style>
-			
-
-			
-
-			li a {
-				display: block;
-				color: white;
-				text-align: center;
-				padding: 10px 15px;
-				text-decoration: none;
-				   
-			}
-
-			li a:hover {
-				background-color: #2c52ab 	;
-			}
-			
-			/*box outline*/
-			#blogsetup:hover {
-				outline : 1px solid 	#99ccff;
-			}
-			#modulesetup:hover {
-				outline : 1px solid 	#99ccff;
-			}
-			input[type=text] {
-			    width: 100%;
-			    padding: 12px 20px;
-			    margin: 8px 0;
-			    font-size: 24px;
-			    border: 0px ;
-			}
-			input[name=intro] {
-			    width: 100%;
-			    padding: 12px 20px;
-			    margin: 8px 0;
-			    font-size: 18px;
-			    border: 0px ;
-			}
-			textarea {
-			    width: 100%;
-			    height: 150px;
-			    padding: 12px 20px;
-			    border: 0px solid #ccc;
-			    border-radius: 4px;
-			    background-color: white;
-			    font-size: 14px;
-			    resize: none;
-			}
-	</style>
-	<style>
-		.button {
-			position: relative;
-			border: 2px solid #00c78c;
-			background-color: white;
-			font-size: 20px;
-			color: #009468;
-			padding: 4px;
-			width: 100px;
-			text-align: center;
-			-webkit-transition-duration: 0.4s; /* Safari */
-			transition-duration: 0.4s;
-			text-decoration: none;
-			overflow: hidden;
-			cursor: pointer;
-		}
-
-		.button:after {
-			content: "";
-			background: white;
-			display: block;
-			position: absolute;
-			padding-top: 300%;
-			padding-left: 350%;
-			margin-left: -20px!important;
-			margin-top: -120%;
-			opacity: 0;
-			transition: all 0.8s
-		}
-
-		.button:active:after {
-			padding: 0;
-			margin: 0;
-			opacity: 1;
-			transition: 0s
-		}
-
-		
-		</style>
+	
 </head>
 
 <body class="w3-Nunito w3-small" onload="initDoc();">
-	<div class="w3-container" style="background-color:white;">		
-		<div class="w3-row">
-			
-		      <div class="w3-col" style="width:300px;">
-		        <p class="w3-text-black w3-large"  style="font-size: 20px;">
-		          <spam style="color:green; font-size: 24px;">Play </spam> with <spam style="color: #009edb; font-size: 24px;">Code</spam>
-		        </p>
-		      </div>
-		      <div class="w3-rest w3-right-align">
-		          <p class="w3-text-black w3-padding" style="font-size: 14px;"> 
-
-		             <span > 
-		                 <i  id="signoutrequest" class="fa fa-sign-out" style="font-size: 18px;"></i> Log out
-		            </span>
-
-		          </p>
-		      </div>
-    
-		</div>
-	</div>
-	<div class="w3-container w3-text-white w3-center" style="background: linear-gradient(90deg, #4b7bec,#2c52ab );">
-		
-		<div class="w3-row" style="margin-left:35%;font-size: 16px;padding:10px;">
-			<ul>
-			  <li><a class="active" href="#home">Learn</a></li>
-			  <li><a href="#news">Practise</a></li>
-			  <li><a href="#contact">Implement</a></li>
-			  <li><a href="#about">Contribute</a></li>
-			  <li><a href="#about">Fun</a></li>
-			</ul>
-		</div>
-	</div>
+	
 <!-- My contentediatble begins here  -->	
 	<!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -447,18 +402,20 @@ height:26px;
 
   </div>
 </div>
+
 <input type="hidden" name="myDoc" style="width:800px;">
 <div id="toolBar2" class="toolBar2" style="margin-left:20%;border:1px solid #C4C8C4;width:800px;margin-top:20px;">
-<a><img  style="height:30px;" class="intLink" title="Bold" onclick="formatDoc('bold');" src="data:image/gif;base64,R0lGODlhFgAWAID/AMDAwAAAACH5BAEAAAAALAAAAAAWABYAQAInhI+pa+H9mJy0LhdgtrxzDG5WGFVk6aXqyk6Y9kXvKKNuLbb6zgMFADs=" /></a>
-<img style="height:30px;" class="intLink" title="Italic" onclick="formatDoc('italic');" src="data:image/gif;base64,R0lGODlhFgAWAKEDAAAAAF9vj5WIbf///yH5BAEAAAMALAAAAAAWABYAAAIjnI+py+0Po5x0gXvruEKHrF2BB1YiCWgbMFIYpsbyTNd2UwAAOw==" />
-<img style="height:30px;" class="intLink" title="Underline" onclick="formatDoc('underline');" src="data:image/gif;base64,R0lGODlhFgAWAKECAAAAAF9vj////////yH5BAEAAAIALAAAAAAWABYAAAIrlI+py+0Po5zUgAsEzvEeL4Ea15EiJJ5PSqJmuwKBEKgxVuXWtun+DwxCCgA7" />
-<img style="height:30px;" class="intLink" title="Numbered list" onclick="formatDoc('insertorderedlist');" src="data:image/gif;base64,R0lGODlhFgAWAMIGAAAAADljwliE35GjuaezxtHa7P///////yH5BAEAAAcALAAAAAAWABYAAAM2eLrc/jDKSespwjoRFvggCBUBoTFBeq6QIAysQnRHaEOzyaZ07Lu9lUBnC0UGQU1K52s6n5oEADs=" />
-<img style="height:30px;" class="intLink" title="Dotted list" onclick="formatDoc('insertunorderedlist');" src="data:image/gif;base64,R0lGODlhFgAWAMIGAAAAAB1ChF9vj1iE33mOrqezxv///////yH5BAEAAAcALAAAAAAWABYAAAMyeLrc/jDKSesppNhGRlBAKIZRERBbqm6YtnbfMY7lud64UwiuKnigGQliQuWOyKQykgAAOw==" />
-<img style="height:30px;" class="intLink" title="Quote" onclick="formatDoc('formatblock','blockquote');" src="data:image/gif;base64,R0lGODlhFgAWAIQXAC1NqjFRjkBgmT9nqUJnsk9xrFJ7u2R9qmKBt1iGzHmOrm6Sz4OXw3Odz4Cl2ZSnw6KxyqO306K63bG70bTB0rDI3bvI4P///////////////////////////////////yH5BAEKAB8ALAAAAAAWABYAAAVP4CeOZGmeaKqubEs2CekkErvEI1zZuOgYFlakECEZFi0GgTGKEBATFmJAVXweVOoKEQgABB9IQDCmrLpjETrQQlhHjINrTq/b7/i8fp8PAQA7" />
-<img style="height:30px;" class="intLink" title="Hyperlink" onclick="var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}" src="data:image/gif;base64,R0lGODlhFgAWAOMKAB1ChDRLY19vj3mOrpGjuaezxrCztb/I19Ha7Pv8/f///////////////////////yH5BAEKAA8ALAAAAAAWABYAAARY8MlJq7046827/2BYIQVhHg9pEgVGIklyDEUBy/RlE4FQF4dCj2AQXAiJQDCWQCAEBwIioEMQBgSAFhDAGghGi9XgHAhMNoSZgJkJei33UESv2+/4vD4TAQA7" />
-<img style="height:30px;" class="intLink" title="Code" onclick="codeIt()" src="https://cdn0.iconfinder.com/data/icons/code/100/bold-code-02-512.png" />
-<img style="height:24px;" class="intLink" title="Upload Image" data-toggle="modal" data-target="#myModal" src="https://cdn1.iconfinder.com/data/icons/social-17/48/photos2-512.png" />
-<select onchange="formatDoc('formatblock',this[this.selectedIndex].value);" tedIndex=0;>
+ <button class="material-icons iconBTN " title="Bold" id="boldBTN" onclick="formatDoc('bold');"  style="">format_bold</button>
+<button class="material-icons iconBTN" id="italicBTN" title="Italic" onclick="formatDoc('italic');" >format_italic</button>
+<button  class="material-icons iconBTN" id="underlineBTN" title="Underline" onclick="formatDoc('underline');" >format_underline</button>
+<button class="material-icons iconBTN" id="ordrList" title="Numbered list" onclick="formatDoc('insertorderedlist');" >format_list_numbered</button>
+<button  class="material-icons iconBTN" id="unordrList" title="Dotted list" onclick="formatDoc('insertunorderedlist');">list</button>
+<button  class="material-icons iconBTN" id="quoteBTN" title="Quote" onclick="formatDoc('formatblock','blockquote');"> format_quote</button>
+<button class="material-icons iconBTN"  id="linkBTN" title="Hyperlink" onclick="var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}">link</button>
+<button  class="material-icons iconBTN" id="codeBTN" title="Code" onclick="codeIt()" ><div>code<div> </button>
+<button  class="material-icons iconBTN" id="imgBTN" title="Upload Image" data-toggle="modal" data-target="#myModal" >add_photo_alternate</button>
+<span style="padding-bottom-30px;" >
+<select onchange="formatDoc('formatblock',this[this.selectedIndex].value);" tedIndex=0; >
 <option value="p">Paragraph</option>
 <option value="pre">Preformatted &lt;pre&gt;</option>
 <option value="h1">Heading 1</option>
@@ -469,43 +426,17 @@ height:26px;
 <option value="h6">Heading 6</option>
 
 </select>
+</span>
 </div>
 
 <input id="blogHead" type="text" placeholder="title..." style="width:800px;height:60px; margin-left:20%;font-weight:bold;border:1px;"/>
-<div id="textBox" contenteditable="true" style="width:800px;margin-left:20%;"></div>
-<button style="margin-left:20%;" class="button" type="button" onclick="SaveThisBlog()" >Submit</button>
+<div id="textBox" contenteditable="true" style="width:800px;margin-left:20%;padding-left: 15px;padding-right: 15px;padding-top: 10px;"></div>
+<button style="margin-left:20%;" class="submitBTN" type="button" onclick="SaveThisBlog()" >Submit</button>
 
 			
 <!-- My contentediatble ends here  -->			
 			
-			<div class="w3-col w3-cell w3-container w3-margin" style="width:24%;">
-				<div class="w3-col  w3-center" style="background-color:white;">
-					<div class="w3-padding">
-						<p style="font-size: 17px;"><b> Add Elements to your <span class="w3-green w3-padding w3-round-xxlarge">blog</span></b></p>
-						<p> Make it more interesting and look good !!</p>
-
-
-						<div class="w3-border w3-round-xxlarge w3-left-align" id="para"><img src="./public/img/text2.png" width="20%;"> <span class="w3-normal"> &nbsp; <b>Add Text Area |</b></span> Click to add Para</div>
-						
-						<div class="w3-border w3-round-xxlarge w3-left-align  w3-margin-top" id="image"><img src="./public/img/camera.png" width="19%;" style="padding:2px"> <span class="w3-normal"> &nbsp;<b> Add Picture |</b>  Click to add Image</span></div>
-
-						   
-						   <div class="w3-border w3-round-xxlarge w3-left-align w3-margin-top"><img src="./public/img/video.png" width="19%;" style="padding:2px"> <span class="w3-normal"> &nbsp; <b>Add Video | </b> Click to add Video</span></div>
-
-						    <div class="w3-border w3-round-xxlarge w3-left-align w3-margin-top"><img src="./public/img/demo.png" width="20%;" style="padding: 2px;"> <span class="w3-normal"> &nbsp; <b>Add Note |</b></span> Click to add Note</div>
-						
-					</div>
-				</div>
-				<hr>
-				<div class="w3-col w3-padding w3-margin-top">
-					<hr>
-					<p> Heading </p>
-					<p> Intro </p>
-					<p> Blog </p>
-					<div id="blogtree"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+		
+		
 </body>
 </html>
