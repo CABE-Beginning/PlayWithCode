@@ -11,7 +11,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 //script to control highlighter
-
     $(document).ready(function () {
         $('button').click(function () {
             //$(this).toggleClass('iconBTNBorder').siblings().removeClass('iconBTNBorder');
@@ -77,13 +76,11 @@ var imgPath = document.getElementById("myFile");
 				listId.style.height='100px';
                 return false;
             }
-
 function insertHTML(img) {
   var id = "rand" + Math.random();
   var doc = document.getElementById("textBox");
   doc = doc.document ? doc.document : doc.contentWindow.document;
   img = "<img src='" + img + "' id=" + id + ">";
-
   if(document.all) {
     var range = doc.selection.createRange();
     range.pasteHTML(img);
@@ -118,12 +115,10 @@ function showSaved()
 alert(window.name);
 }
 function formatDoc(sCmd, sValue) {
-
 $('#textBox').focus();
   document.execCommand(sCmd, false, sValue);
   
 }
-
 function codeIt()
 {
 oDoc.focus();
@@ -138,7 +133,6 @@ chk=0;
 return false;
 }
 }
-
 function setDocMode(bToSource) {
   var oContent;
   if (bToSource) {
@@ -163,8 +157,6 @@ function setDocMode(bToSource) {
   }
   oDoc.focus();
 }
-
-
 function SaveThisBlog()
 {
 const headData = $("#blogHead").val();
@@ -183,8 +175,6 @@ const headData = $("#blogHead").val();
 		  }
       });
 }
-
-
 </script>
 <!-- content editable script ends here   -->
 
@@ -201,7 +191,6 @@ const headData = $("#blogHead").val();
 			    foo.counter++;
 			    return foo.counter;
 			}
-
 			$('#para').click(function(){
 				  	var input = document.createElement("INPUT");    
 				  	input.setAttribute("type", "text");                   // Create a <p> element
@@ -213,7 +202,6 @@ const headData = $("#blogHead").val();
 					var element = document.getElementById("blogtree");
 					element.appendChild(para);
 			});
-
 			$('#image').click(function(){
 					var x = document.createElement("INPUT");
 					x.setAttribute("type", "image");
@@ -222,7 +210,6 @@ const headData = $("#blogHead").val();
 					x.setAttribute("name","demo");
 					document.getElementById("newpara").appendChild(x); 
 			});
-
 			$('#blogcreate').click(function(){
 			var head = document.getElementById('Head').value;
 			var intro = document.getElementById('intro').value;
@@ -246,7 +233,6 @@ const headData = $("#blogHead").val();
 		
 		
 		
-
 	</script>
 	
 	<style type="text/css" name="content ediatble style...most welcome to change">
@@ -256,12 +242,10 @@ const headData = $("#blogHead").val();
 {
 height:100px;
 }
-
 codeSection
 {
 background-color:#C7FAC7;
 }
-
 #userImg{
 display:block;
 width:200px;
@@ -288,12 +272,10 @@ button:focus {
     outline: none;
 }
 #editMode label { cursor: pointer; }
-
 input[type="text"]
 {
     font-size:24px;
 }
-
 #codeBlock
 {
 width:90%;
@@ -307,23 +289,23 @@ font:italic;
 .iconBTN
 {
 background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;
-    outline:none;0
+background-repeat:no-repeat;
+border: 1px solid white;
+cursor:pointer;
+overflow: hidden;
+outline:none;0
 height:10px;
 margin-top:2px;	
 }
 .iconBTN:hover
 {
-background-color: grey;
+background-color: #f9f9f9;
 }
 .iconBTNBorder
 {
-border: 1px solid;
+border: 1px solid lightgrey;
+color: dodgerblue;
 }
-
 .submitBTN {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -338,7 +320,6 @@ border: 1px solid;
 	border-radius: 4px;
 }
 .button:hover {background-color: #3e8e41}
-
 button {border-radius: 4px;}
 .toolBar2
 {
@@ -346,23 +327,18 @@ button {border-radius: 4px;}
  height:35px;
  
 }
-
 #container {
     display: flex;
     justify-content: center;
 }
-
 select{
-background-color:#EBF1EB;
-border-radius: 4px;
-//position: relative;
-//bottom: 8px;
+background-color:#f9f9f9;
+border-radius: 2px;
+position: relative;
+bottom: 7px;
 left:3px;
-font-family:Comic Sans MS;
-height:26px;
-
+height:27px;
 }
-
 .inputfile {
 	width: 0.1px;
 	height: 0.1px;
@@ -405,7 +381,7 @@ height:26px;
 
 <input type="hidden" name="myDoc" style="width:800px;">
 <div id="toolBar2" class="toolBar2" style="margin-left:20%;border:1px solid #C4C8C4;width:800px;margin-top:20px;">
- <button class="material-icons iconBTN " title="Bold" id="boldBTN" onclick="formatDoc('bold');"  style="">format_bold</button>
+<button class="material-icons iconBTN " title="Bold" id="boldBTN" onclick="formatDoc('bold');"  style="margin-left:3px;">format_bold</button>
 <button class="material-icons iconBTN" id="italicBTN" title="Italic" onclick="formatDoc('italic');" >format_italic</button>
 <button  class="material-icons iconBTN" id="underlineBTN" title="Underline" onclick="formatDoc('underline');" >format_underline</button>
 <button class="material-icons iconBTN" id="ordrList" title="Numbered list" onclick="formatDoc('insertorderedlist');" >format_list_numbered</button>
@@ -414,9 +390,9 @@ height:26px;
 <button class="material-icons iconBTN"  id="linkBTN" title="Hyperlink" onclick="var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}">link</button>
 <button  class="material-icons iconBTN" id="codeBTN" title="Code" onclick="codeIt()" ><div>code<div> </button>
 <button  class="material-icons iconBTN" id="imgBTN" title="Upload Image" data-toggle="modal" data-target="#myModal" >add_photo_alternate</button>
-<span style="padding-bottom-30px;" >
-<select onchange="formatDoc('formatblock',this[this.selectedIndex].value);" tedIndex=0; >
-<option value="p">Paragraph</option>
+<span >
+<select onchange="formatDoc('formatblock',this[this.selectedIndex].value);" tedIndex=0;>
+<option value="p" style="margin-top: 0px;">Paragraph</option>
 <option value="pre">Preformatted &lt;pre&gt;</option>
 <option value="h1">Heading 1</option>
 <option value="h2">Heading 2</option>
